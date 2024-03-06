@@ -134,7 +134,7 @@ export default function Movie() {
                     <h4>Available on</h4>
                     <div className="providers">
                         {
-                            providers.flatrate?.map((provider, index) => {
+                            providers?.flatrate?.map((provider, index) => {
                                 return (
                                     <img style={{width: "72px"}} key={index} src={`https://image.tmdb.org/t/p/original${provider.logo_path}`} alt={provider.provider_name} />
                                 )

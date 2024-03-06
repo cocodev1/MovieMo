@@ -4,6 +4,7 @@ import App from './Discover.jsx'
 
 import {
   createBrowserRouter,
+  createHashRouter,
   RouterProvider,
 } from "react-router-dom"
 import './index.css'
@@ -18,9 +19,9 @@ const options = {
   }
 }
 
-const router = createBrowserRouter([
+const router = createHashRouter([
   {
-    path: "/",
+    path: "/*",
     element: <App />,
     errorElement: <ErrorPage />,
   },

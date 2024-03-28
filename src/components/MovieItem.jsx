@@ -6,8 +6,8 @@ import { Link } from 'react-router-dom'
 
 export default function MovieItem({movie}) {
 
-    const [rating, setRating] = useState(4.5)
-
+    const [rating, setRating] = useState(movie.rating)
+    
     return (
         <div>
             <Link to={`/movie/${movie.id}`}>
@@ -33,16 +33,16 @@ export default function MovieItem({movie}) {
             >
             <Rating
             onClick={e => console.log(e)}
-            ratingValue={rating}
+            ratingValue={rating != null ? rating : 0}
             size={20}
             transition
             fillColor='orange'
             emptyColor='gray'
-            initialValue={rating}
+            initialValue={rating != null ? rating : 0   }
             readonly
             allowFraction
                   />
-            <p style={{margin: 0}}>{rating}</p>
+            <p style={{margin: 0}}>{rating || "Not rated"}</p>
          </div>
         </div>
     )

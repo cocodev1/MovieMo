@@ -12,6 +12,11 @@ import genres from './genres'
 import languages from './languages'
 import { Rating } from 'react-simple-star-rating'
 import MovieItem from './components/MovieItem'
+import { BACKEND } from './const'
+import Header from '../Header'
+
+
+
 
 function App() {
   const [actors, setActors] = useState([])  
@@ -27,8 +32,8 @@ function App() {
  
 
   const search = async (npage) => {
-
-
+    
+    
 
     const options = {
       method: 'GET',
@@ -58,7 +63,16 @@ function App() {
     const response = await fetch(url, options)
     const data = await response.json()
     console.log(data)
-    return data
+    const ratings = await fetch(`${BACKEND}/comments?movies=${data.results.map(m => m.id).join(',')}`, {
+      method: 'GET',
+      headers: {
+        accept: 'application/json',
+    }})
+    const ratingsData = await ratings.json()
+    console.log(ratingsData)
+    const toret = data.results.map(m => ({...m, rating: ratingsData.find(r => r.movieId == m.id)?.avgRating || null}))
+    console.log(toret)
+    return toret
 
   }
 
@@ -67,7 +81,7 @@ function App() {
     const data = await search(npage)
     console.log(data)
     setPage(npage)
-    setMovies(data.results)
+    setMovies(data)
     scrollable.current.scrollTop = 0  
   }
 
@@ -75,15 +89,16 @@ function App() {
     if (Math.abs(e.target.scrollHeight - (e.target.scrollTop + e.target.clientHeight)) <= 1) {
       const data = await search(page + 1)
       setPage(page + 1)
-      setMovies([...movies, ...data.results])
+      setMovies([...movies, ...data])
     }
 
   }
   return (
     <>
+    <Header />
       <div className='root' >
         <div className='filters'>
-
+        
           <div>
                 <FilterHeaderConst 
                   title={"Genres"}

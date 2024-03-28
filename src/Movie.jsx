@@ -4,41 +4,86 @@ import { Rating } from 'react-simple-star-rating'
 import Button from 'react-bootstrap/Button'
 import Badge from 'react-bootstrap/Badge'
 import { BookmarkFill, PlayFill } from "react-bootstrap-icons"
+import { BACKEND } from "./const";
+import Header from "../Header";
 
 
 export default function Movie() {
+
     const data = useLoaderData()
     const movie = data.data
     const providers = data.providers
     const cast = data.cast
     const recommendations = data.recommendations
     const teaser = data.teaser
-    console.log(providers   )
+
     
     useEffect(() => {
 
     }, [])
 
-    const [rating, setRating] = useState(4.5)
-    const [comments, setComments] = useState([
-        {
-            text: "This is a great movie",
-            rating: 5
-        },
-        {
-            text: "This is a great movie",
-            rating: 3   
-        },
-        {
-            text: "This is a great movie",
-            rating: 4
-        }
+    const [rating, setRating] = useState(null)
+    const [comment, setComment] = useState("")
+    const [comments, setComments] = useState(data.comments)
+    const [watchlist, setWatchlist] = useState(data.watchlist)
+    
+    console.log(data)
 
-        
+    const postComment = async () => {
+        const res = await fetch(`${BACKEND}/comments`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                text: comment,
+                rating: rating,
+                user: localStorage.getItem("email"),
+                movie: movie.id
+            })
+        })
+        const data = await res.json()
+        console.log(data)
+        setComments(c => [data, ...c])
+        setComment("")
+        setRating(0)
+    }
 
-    ])
+    const addToWatchlist = async () => {
+        const res = await fetch(`${BACKEND}/watchlist`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                email: localStorage.getItem("email"),
+                movie: movie.id
+            })
+        })
+        const data = await res.json()
+        setWatchlist([...watchlist, movie.id])
+        console.log(data)
+    }
+
+    const removeToWatchlist = async () => {
+        const res = await fetch(`${BACKEND}/watchlist`, {
+            method: "DELETE",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                email: localStorage.getItem("email"),
+                movie: movie.id
+            })
+        })
+        const data = await res.json()
+        setWatchlist(watchlist.filter(w => w != movie.id))
+        console.log(data)
+    }
 
     return (
+        <>
+        <Header />  
         <div className="movie-page">
             <ScrollRestoration />
             <div className="movie-left-panel">
@@ -47,18 +92,18 @@ export default function Movie() {
                     <div className="comment-form">
                         <div className="comment-form-header">
                             <Rating
-                            onClick={e => console.log(e)}
-                            ratingValue={0}
+                            onClick={e => setRating(e)}
+                            ratingValue={rating}
                             size={20}
                             transition
                             fillColor='orange'
                             emptyColor='gray'
                             initialValue={0}
                             allowFraction />
-                        <Button variant="primary">Post</Button>
+                        <Button variant="primary" onClick={postComment} disabled={!localStorage.getItem('email')}>Post</Button>
 
                         </div>
-                        <textarea className="comment-form-textarea" placeholder="Write a comment..."></textarea>
+                        <textarea className="comment-form-textarea" placeholder="Write a comment..." onChange={e => setComment(e.target.value)}></textarea>
                         
                     </div>
                     {
@@ -79,7 +124,7 @@ export default function Movie() {
                                         allowFraction />
                                     <p>{comment.rating}</p>
                                     </div>
-                                    <p>{comment.text}</p>
+                                    <p>{comment.content}</p>
                                 </div>
                             )
                         })
@@ -103,17 +148,16 @@ export default function Movie() {
                 </div>
                 <div className="movie-rating">
                 <Rating
-                    onClick={e => console.log(e)}
-                    ratingValue={rating}
+                    ratingValue={ comments.reduce((acc, c) => acc + c.rating, 0) / comments.length }
                     size={30}
                     transition
                     fillColor='orange'
                     emptyColor='gray'
-                    initialValue={rating}
+                    initialValue={(comments.reduce((acc, c) => acc + c.rating, 0) / comments.length)}
                     readonly
                     allowFraction
                 />
-                <h5>{rating}</h5>
+                <h5>{comments.length == 0 ? "Not rated" : Math.round((comments.reduce((acc, c) => acc + c.rating, 0) / comments.length) * 10) / 10 }</h5>
                 </div>
                 <div className="movie-button on-same-line">
                     <a href={`https://www.youtube.com/watch?v=${teaser}`} target="_blank">
@@ -122,10 +166,17 @@ export default function Movie() {
                               Watch Trailer
                     </Button>
                     </a>
-                    <Button variant="primary">
-                        <BookmarkFill style={{marginRight: "5px"}}/>
+                    {(watchlist && watchlist.includes(movie.id)) ? 
+                    <Button variant="primary" onClick={removeToWatchlist}>
+                        <BookmarkFill style={{marginRight: "5px"}} />
+
+                        Remove to watchlist</Button> : 
+                        
+                        <Button variant="primary" onClick={addToWatchlist} disabled={!localStorage.getItem('email')}>
+                            <BookmarkFill style={{marginRight: "5px"}} />
+                        
                            Add to Watchlist
-                    </Button>
+                        </Button>}
                 </div>
                 <div className="movie-overview"></div>
                     <h4>Overview</h4>
@@ -175,5 +226,6 @@ export default function Movie() {
             </div>
             
         </div>
+        </>
     )
 }

@@ -33,7 +33,6 @@ export default function Account() {
                                 <Link to={`/movie/${movie.id}`}>
                                 <img className="movie-saved" src={`https://image.tmdb.org/t/p/original${movie.poster_path}`} alt={movie.title} />
                                 </Link>
-                                <p>{movie.title}</p>
                             </div>
                         ))
                     }

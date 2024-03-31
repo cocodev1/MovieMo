@@ -74,6 +74,12 @@
     row-gap: 60px;
 }
 
+.random-button {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+}
+
 .logo {
   height: 6em;
   padding: 1.5em;
@@ -302,4 +308,5 @@
 
 .headerbg {
   background-color: #000;
+  height: 7vh;
 }

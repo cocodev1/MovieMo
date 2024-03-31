@@ -14,11 +14,22 @@ import { Rating } from 'react-simple-star-rating'
 import MovieItem from './components/MovieItem'
 import { BACKEND } from './const'
 import Header from '../Header'
+import { Shuffle } from 'react-bootstrap-icons'
 
 
 
 
 function App() {
+
+
+  const options = {
+    method: 'GET',
+    headers: {
+      accept: 'application/json',
+      Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxYzg2YjgwZTU3ODJiYmQ3MDU2ZThhOThmZGUxMTNlYiIsInN1YiI6IjYzYTcyMDcyMDgzNTQ3MDBlMjBmYjI4ZSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.MZBQNFtL3MFY2O26dcsxNsCB9lxiB44tFNaAm8KPlJ4'
+    }
+  }
+
   const [actors, setActors] = useState([])  
   const [sgenres, setsGenres] = useState([])
   const [producer, setProducer] = useState([])
@@ -29,19 +40,13 @@ function App() {
   const [movies, setMovies] = useState([])
   const [page, setPage] = useState(1)
   const scrollable = useRef(null)
- 
+  const [isScrollable, setIsScrollable] = useState(true)
 
   const search = async (npage) => {
     
     
 
-    const options = {
-      method: 'GET',
-      headers: {
-        accept: 'application/json',
-        Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxYzg2YjgwZTU3ODJiYmQ3MDU2ZThhOThmZGUxMTNlYiIsInN1YiI6IjYzYTcyMDcyMDgzNTQ3MDBlMjBmYjI4ZSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.MZBQNFtL3MFY2O26dcsxNsCB9lxiB44tFNaAm8KPlJ4'
-      }
-    }
+   
 
     const url = new URL("https://api.themoviedb.org/3/discover/movie")
     if (sgenres.length > 0) {
@@ -77,19 +82,42 @@ function App() {
   }
 
   const onSearch = async (npage) => {
-    
     const data = await search(npage)
     console.log(data)
     setPage(npage)
     setMovies(data)
-    scrollable.current.scrollTop = 0  
+    scrollable.current.scrollTop = 0 
+    setIsScrollable(true) 
   }
 
   const onScroll = async (e) => {
+    if(!isScrollable) {
+      return
+    }
     if (Math.abs(e.target.scrollHeight - (e.target.scrollTop + e.target.clientHeight)) <= 1) {
       const data = await search(page + 1)
       setPage(page + 1)
       setMovies([...movies, ...data])
+    }
+
+  }
+
+
+  const randomMovie = async () => {
+    const res = await fetch(`https://api.themoviedb.org/3/movie/${Math.round(Math.random() * 1000)}/recommendations`, options)
+    if(res.status != 200) {
+      await randomMovie()
+    } else {
+    const data = await res.json()
+    
+    setPage(1)
+    if(data.results.length === 0) {
+      await randomMovie()
+    } else {
+    setMovies(data.results)
+    scrollable.current.scrollTop = 0
+    setIsScrollable(false)
+    }
     }
 
   }
@@ -252,6 +280,10 @@ function App() {
             {movies.map((movie, index) => (
               <MovieItem key={index} movie={movie} />
             ))}
+            <Button className='random-button' onClick={randomMovie} >
+              <Shuffle style={{marginRight: "5px"}} size={20} /> 
+              Random Movies
+            </Button>
         </div>
       </div>
       

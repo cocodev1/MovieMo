@@ -128,6 +128,8 @@
   max-width: 25vw;
 }
 
+
+
 .comment {
   
   padding-top: 30px;
@@ -223,7 +225,7 @@
 }
 
 .recommendations-container img {
-  width: 10vw;
+  width: 12vw;
   margin: 20px;
 }
 

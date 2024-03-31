@@ -214,7 +214,7 @@ export default function Movie() {
                                 return (
                                     <Link to={`/movie/${movie.id}`}>
                                     <div key={index} className="recommendation">
-                                        <img src={`https://image.tmdb.org/t/p/original${movie.poster_path}`} alt={movie.title} />
+                                        <img className="hovered-poster" src={`https://image.tmdb.org/t/p/original${movie.poster_path}`} alt={movie.title} />
                                     </div>
                                     </Link>
                                 )

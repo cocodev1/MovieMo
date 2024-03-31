@@ -10,11 +10,11 @@ export default function MovieItem({movie}) {
     
     return (
         <div>
-            <Link to={`/movie/${movie.id}`}>
+            <Link to={`/movie/${movie.id}`} >
             <figure style={{objectFit: 'cover',  display: 'flex',
             justifyContent: 'center',
             flexDirection: 'row'}}>
-                <img style={{width: "150px"}} src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`} alt={movie.title} />
+                <img style={{width: "150px"}} className='hovered-poster' src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`} alt={movie.title} />
             </figure>
             </Link>
             <p 

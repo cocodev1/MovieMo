@@ -17,17 +17,17 @@ export default function Movie() {
     const recommendations = data.recommendations
     const teaser = data.teaser
 
-    
-    useEffect(() => {
-
-    }, [])
+   
 
     const [rating, setRating] = useState(null)
     const [comment, setComment] = useState("")
     const [comments, setComments] = useState(data.comments)
     const [watchlist, setWatchlist] = useState(data.watchlist)
     
-    console.log(data)
+
+    useEffect(() => {
+        setComments(data.comments)
+    }, [data])
 
     const postComment = async () => {
         const res = await fetch(`${BACKEND}/comments`, {
@@ -106,7 +106,7 @@ export default function Movie() {
                         <textarea className="comment-form-textarea" placeholder="Write a comment..." onChange={e => setComment(e.target.value)}></textarea>
                         
                     </div>
-                    {
+                     {
                         comments.map((comment, index) => {
                             return (
                                 
@@ -212,7 +212,7 @@ export default function Movie() {
                         {
                             recommendations.results.filter(r => r.poster_path).map((movie, index) => {
                                 return (
-                                    <Link to={`/movie/${movie.id}`}>
+                                    <Link to={`/movie/${movie.id}`} >
                                     <div key={index} className="recommendation">
                                         <img className="hovered-poster" src={`https://image.tmdb.org/t/p/original${movie.poster_path}`} alt={movie.title} />
                                     </div>

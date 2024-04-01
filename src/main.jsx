@@ -69,10 +69,6 @@ const router = createHashRouter([
         teaser = data5.results.find(r => r.site == "YouTube")?.key
       }
       const response6 = await fetch(`${BACKEND}/movie?id=${params.movieId}`)
-      if(response6.status == 5) {
-        const err = await response6.text()
-        console.log(err)
-      }
       const data6 = await response6.json()
       let response7
       let data7

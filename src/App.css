@@ -348,7 +348,7 @@
   --bg-header : #222;
   --bg-filters : #343A40;
   --white-color: #fff;
-  p, .movie-left-panel, h3, h1, h4 {
+  p, .movie-left-panel, h3, h1, h4, h5 {
     color: #fff;
   }
   .results {

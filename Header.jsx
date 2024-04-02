@@ -10,7 +10,7 @@ import { useNavigate } from 'react-router-dom'
 
 
 export default function Header() {
-
+    localStorage.setItem('theme', localStorage.getItem('theme') || 'dark')
     const navigate = useNavigate()
 
     const [show, setShow] = useState(false)
@@ -68,9 +68,24 @@ export default function Header() {
         <Navbar  className='headerbg'>
             <Container>
                 <Navbar.Brand as={Link} to="/">MovieMosaic</Navbar.Brand>
-                <Nav className="me-auto">
+                <Nav className="me-auto" style={{
+                    alignItems: 'center',
+                    width: '100%',
+                    justifyContent: 'flex-start'
+                }}>
                     <Nav.Link as={Link} to="/discover">Discover</Nav.Link>
                     <Nav.Link onClick={randomMovie}>Random Movie</Nav.Link>
+                    <Nav.Link onClick={() => {
+                        if(localStorage.getItem('theme') == 'dark') {
+                            localStorage.setItem('theme', 'light')
+                        } else {
+                            localStorage.setItem('theme', 'dark')
+                        }
+                        window.location.reload()
+                            
+                            }}>
+                                {localStorage.getItem('theme') == 'dark' ? 'Light Mode' : 'Dark Mode'}
+                    </Nav.Link>
                    {
                           localStorage.getItem('email') ? (
                             <>
@@ -81,16 +96,20 @@ export default function Header() {
                                 }} >Logout</Nav.Link>
                             </>
                           ) : (
-                            <>
+                            <div style={{
+                                marginLeft: 'auto'
+                            }}>
+                            <Button>
                             <Nav.Link onClick={() => setShow(true)}>Login</Nav.Link>
-                            </>
+                            </Button>
+                            </div>
                           )
                    }
                 </Nav>
             </Container>
         </Navbar>
-        <Modal show={show} onHide={() => setShow(false)}>
-                   <Modal.Header closeButton>
+        <Modal show={show} onHide={() => setShow(false)} data-bs-theme={localStorage.getItem('theme')}>
+                   <Modal.Header closeButton data-bs-theme={localStorage.getItem('theme')} style={{...(localStorage.getItem('theme') == 'dark' && {color: "#fff"})}}>
                           <Modal.Title>Login</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>

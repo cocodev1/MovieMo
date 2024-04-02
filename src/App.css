@@ -348,7 +348,7 @@
   --bg-header : #222;
   --bg-filters : #343A40;
   --white-color: #fff;
-  p, .movie-left-panel, h3 {
+  p, .movie-left-panel, h3, h1, h4 {
     color: #fff;
   }
   .results {
@@ -357,6 +357,9 @@
   .account-page, .movie-page {
     background-color: #222529;
     height: 100%;
+  }
+  .modal-contentt {
+    background-color: #222529;
   }
   
 } 

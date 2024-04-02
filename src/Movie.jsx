@@ -180,7 +180,7 @@ export default function Movie() {
                 </div>
                 <div className="movie-overview"></div>
                     <h4>Overview</h4>
-                    <p>{movie.overview}</p>
+                    <p style={{maxWidth: "80ch"}}>{movie.overview}</p>
                 <div className="availableon"></div>
                     <h4>Available on</h4>
                     <div className="providers">

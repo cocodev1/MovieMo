@@ -42,7 +42,7 @@ export default function MovieItem({movie}) {
             readonly
             allowFraction
                   />
-            <p style={{margin: 0}}>{rating || "Not rated"}</p>
+            <p style={{margin: 0}}>{(Math.round(rating * 10) / 10) || "Not rated"}</p>
          </div>
         </div>
     )

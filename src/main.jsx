@@ -104,6 +104,8 @@ const router = createHashRouter([
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
+    <div data-bs-theme={localStorage.getItem('theme') || "dark"}>
     <RouterProvider router={router} />
+    </div>
   </React.StrictMode>,
 )

@@ -5,7 +5,6 @@
 
   color-scheme: light dark;
   color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -14,13 +13,18 @@
   height: 100%;
 }
 
+[data-bs-theme=dark] {
+  --bs-body-bg: #242424 !important;
+
+  body {
+    background-color: #242424;
+  }
+}
+
 .root {
   height: 93vh;
 }
 
-.headerbg {
-  background-color: #151822 !important;
-}
 
 a {
   font-weight: 500;

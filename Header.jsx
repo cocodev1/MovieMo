@@ -40,14 +40,37 @@ export default function Header() {
         navigate('/discover')
     }
 
+    const randomMovie = async () => {
+        const options = {
+            method: 'GET',
+            headers: {
+              accept: 'application/json',
+              Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxYzg2YjgwZTU3ODJiYmQ3MDU2ZThhOThmZGUxMTNlYiIsInN1YiI6IjYzYTcyMDcyMDgzNTQ3MDBlMjBmYjI4ZSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.MZBQNFtL3MFY2O26dcsxNsCB9lxiB44tFNaAm8KPlJ4'
+            }
+          }
+          
+        const id = Math.floor(Math.random() * 1000)
+        const response = await fetch(`https://api.themoviedb.org/3/movie/${id}`, options)
+        if(response.status != 404) {
+            const data = await response.json()
+            if(data.poster_path != null) {
+        navigate('/movie/' + id)
+            } else {
+                await randomMovie()
+            }
+        } else {
+            await randomMovie()
+        }
+    }
 
     return (
         <>
-        <Navbar bg="dark" variant="dark" className='headerbg'>
+        <Navbar  className='headerbg'>
             <Container>
                 <Navbar.Brand as={Link} to="/">MovieMosaic</Navbar.Brand>
                 <Nav className="me-auto">
                     <Nav.Link as={Link} to="/discover">Discover</Nav.Link>
+                    <Nav.Link onClick={randomMovie}>Random Movie</Nav.Link>
                    {
                           localStorage.getItem('email') ? (
                             <>

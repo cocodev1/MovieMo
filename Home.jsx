@@ -46,17 +46,15 @@ export default function Home() {
             height: '93.2vh',
             backgroundColor: 'rgba(0, 0, 0, 0.5)',
             backgroundBlendMode: 'multiply'}}>
-            <div className=" justify-content-center">
+            <div className="big-home justify-content-center">
                 <div className="col-md-12 text-center">
                     <h1  class="mb-4" style={{
                         fontSize: '3.5rem',
                         overflow: 'hidden',
                         whiteSpace: 'nowrap',
-                        color: 'white',
                         textOverflow: 'ellipsis'
                     }}>Welcome to Movie Mosaic!</h1>
-                    <p style={{
-                        color: 'white',
+                    <p  className="big-home" style={{
                         fontSize: '2rem'
                     }}> Let us help you find the movie you are looking for.</p>
                     <p>  </p>

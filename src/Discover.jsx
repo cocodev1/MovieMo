@@ -105,6 +105,7 @@ function App() {
 
   const randomMovie = async () => {
     const res = await fetch(`https://api.themoviedb.org/3/movie/${Math.round(Math.random() * 1000)}/recommendations`, options)
+    
     if(res.status != 200) {
       await randomMovie()
     } else {

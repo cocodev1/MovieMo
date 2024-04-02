@@ -93,7 +93,7 @@ export default function Header() {
                           localStorage.getItem('email') ? (
                             <>
                             <Nav.Link as={Link} to="/account">Account</Nav.Link>
-                            <Nav.Link onClick={() => {
+                            <Nav.Link style={{marginLeft: 'auto'}} onClick={() => {
                                 localStorage.removeItem('email')
                                 navigate('/')
                                 }} >Logout</Nav.Link>

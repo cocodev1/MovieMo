@@ -10,7 +10,9 @@ import { useNavigate } from 'react-router-dom'
 
 
 export default function Header() {
-    localStorage.setItem('theme', localStorage.getItem('theme') || 'dark')
+    if(!localStorage.getItem('theme')) {
+        localStorage.setItem('theme', 'dark')
+    }
     const navigate = useNavigate()
 
     const [show, setShow] = useState(false)

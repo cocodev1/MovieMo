@@ -12,6 +12,7 @@ import { useNavigate } from 'react-router-dom'
 export default function Header() {
     if(!localStorage.getItem('theme')) {
         localStorage.setItem('theme', 'dark')
+        window.location.reload()
     }
     const navigate = useNavigate()
 

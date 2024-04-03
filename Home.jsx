@@ -62,8 +62,8 @@ export default function Home() {
                     <button type="button" className="btn btn-primary btn-lg" onClick={() => setShow(true)} data-bs-theme={localStorage.getItem('theme')}>Get Started</button>
                 </div>
             </div>
-            <Modal show={show} onHide={() => setShow(false)}>
-                   <Modal.Header closeButton>
+            <Modal show={show} onHide={() => setShow(false)} data-bs-theme={localStorage.getItem('theme')}>
+                   <Modal.Header closeButton data-bs-theme={localStorage.getItem('theme')} style={{...(localStorage.getItem('theme') == 'dark' && {color: "#fff"})}}>
                           <Modal.Title>Login</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>

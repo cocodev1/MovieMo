@@ -59,7 +59,7 @@ export default function Home() {
                     }}> Let us help you find the movie you are looking for.</p>
                     <p>  </p>
                     <p>  </p>
-                    <button type="button" className="btn btn-primary btn-lg" onClick={() => setShow(true)}>Get Started</button>
+                    <button type="button" className="btn btn-primary btn-lg" onClick={() => setShow(true)} data-bs-theme={localStorage.getItem('theme')}>Get Started</button>
                 </div>
             </div>
             <Modal show={show} onHide={() => setShow(false)}>

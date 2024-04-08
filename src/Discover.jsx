@@ -146,12 +146,13 @@ function App() {
                 <div className='genres-badge-container'>
                   {sgenres.map((genre, index) => (
                     <Badge  key={index}  bg={genre.active ? 'primary' : 'secondary'} onClick={() => {
-                      const newGenres = sgenres.map(g => {
+                      /*const newGenres = sgenres.map(g => {
                         if (g.id === genre.id) {
                           return {...g, active: !g.active}
                         }
                         return g
-                      })
+                      })*/
+                      const newGenres = sgenres.filter(g => g.id !== genre.id)
                       setsGenres(newGenres)
                     } }>
                       {genre.name}
@@ -231,12 +232,13 @@ function App() {
                 <div className='genres-badge-container'>
                   {slanguages.map((genre, index) => (
                     <Badge  key={index}  bg={genre.active ? 'primary' : 'secondary'} onClick={() => {
-                      const newGenres = slanguages.map(g => {
+                      /*const newGenres = slanguages.map(g => {
                         if (g.iso_639_1 === genre.iso_639_1) {
                           return {...g, active: !g.active}
                         }
                         return g
-                      })
+                      })*/
+                      const newGenres = slanguages.filter(g => g.iso_639_1 !== genre.iso_639_1)
                       setsLanguages(newGenres)
                     } }>
                       {genre.name}
@@ -260,12 +262,13 @@ function App() {
                 <div className='genres-badge-container'>
                   {subtitles.map((genre, index) => (
                     <Badge  key={index}  bg={genre.active ? 'primary' : 'secondary'} onClick={() => {
-                      const newGenres = subtitles.map(g => {
+                      /*const newGenres = subtitles.map(g => {
                         if (g.iso_639_1 === genre.iso_639_1) {
                           return {...g, active: !g.active}
                         }
                         return g
-                      })
+                      })*/
+                      const newGenres = subtitles.filter(g => g.iso_639_1 !== genre.iso_639_1)
                       setSubtitles(newGenres)
                     } }>
                       {genre.name}

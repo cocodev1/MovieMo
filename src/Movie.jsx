@@ -30,6 +30,8 @@ export default function Movie() {
     }, [data])
 
     const postComment = async () => {
+
+        // We send the comment parameters to the backend
         const res = await fetch(`${BACKEND}/comments`, {
             method: "POST",
             headers: {
@@ -39,12 +41,17 @@ export default function Movie() {
                 text: comment,
                 rating: rating,
                 user: localStorage.getItem("email"),
-                movie: movie.id
+                movie: movie.id 
             })
         })
+
+        // We get the data from the response
         const data = await res.json()
-        console.log(data)
+
+        // We add the comment to the comments array, this will update the UI
         setComments(c => [data, ...c])
+
+        // We reset the comment and rating
         setComment("")
         setRating(0)
     }
@@ -170,7 +177,7 @@ export default function Movie() {
                     <Button variant="primary" onClick={removeToWatchlist}>
                         <BookmarkFill style={{marginRight: "5px"}} />
 
-                        Remove to watchlist</Button> : 
+                        Remove from watchlist</Button> : 
                         
                         <Button variant="primary" onClick={addToWatchlist} disabled={!localStorage.getItem('email')}>
                             <BookmarkFill style={{marginRight: "5px"}} />

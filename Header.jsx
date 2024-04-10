@@ -21,6 +21,8 @@ export default function Header() {
     const [password, setPassword] = useState('')
 
     const login = async () => {
+
+        // We fetch the user from the backend
         try {
             const res = await fetch(`${BACKEND}/user`, {
                 method: "POST",
@@ -32,14 +34,17 @@ export default function Header() {
                     password: password
                 })
             })
-            if(res.status == 500) {
-                console.log("User already exists")
-            }
         } catch(e) {
+            // If the user exist it returns a 500 status code and we catch it here
             console.log("User exist", e)
         }
+        // We store the email in the local storage, it works the same as a cookie
         localStorage.setItem('email', email)
+
+        // We close the modal
         setShow(false)
+
+        // User is redirected to the discover page 
         navigate('/discover')
     }
 
